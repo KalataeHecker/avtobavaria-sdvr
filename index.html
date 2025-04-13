@@ -4,57 +4,97 @@
   <meta charset="UTF-8">
   <title>Проверка на кола</title>
   <style>
-    body { font-family: Arial; padding: 0; margin: 0; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/BMW_M_logo.svg/2560px-BMW_M_logo.svg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #f4f4f4;
       padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
       border-bottom: 1px solid #ccc;
     }
+
     .header img {
       height: 50px;
     }
-    .header-text {
-      font-size: 18px;
+
+    .header-title {
+      font-size: 20px;
       font-weight: bold;
+      text-align: center;
+      flex-grow: 1;
+      color: #fff;
     }
+
     .container {
       padding: 20px;
+      text-align: center;
     }
-    input, button { padding: 8px; margin: 5px; }
-    table { border-collapse: collapse; margin-top: 20px; }
-    td, th { border: 1px solid #ccc; padding: 8px 12px; }
+
+    input, button {
+      padding: 10px;
+      margin: 10px 5px;
+      font-size: 16px;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      background: #fff;
+      color: #000;
+    }
+
+    td, th {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+    }
+
     #adminMenu {
       display: none;
       margin-top: 10px;
     }
+
     #adminMenu button {
-      margin-right: 10px;
+      margin: 5px;
     }
   </style>
 </head>
 <body>
-
-  <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" alt="Лого на Авто Бавария">
-    <div class="header-text">X | Пътна полиция - СДВР</div>
-  </div>
-
-  <div class="container">
-    <h2>Enter card code</h2>
-    <input type="text" id="codeInput">
-    <button onclick="searchCar()">Search</button>
-
-    <br><br>
-    <button onclick="toggleAdmin()">Администратор</button>
-    <div id="adminMenu">
-      <button onclick="alert('Добавяне на нова кола')">Добави</button>
-      <button onclick="alert('Премахване на кола')">Премахни</button>
+  <div class="overlay">
+    <div class="header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" alt="BMW Logo">
+      <div class="header-title">Auto Bavaria | X | Пътна полиция - СДВР</div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Bulgarian_police_emblem.svg/1024px-Bulgarian_police_emblem.svg.png" alt="Police Emblem" style="height:50px;">
     </div>
 
-    <div id="result"></div>
+    <div class="container">
+      <h2>Въведи код от карта</h2>
+      <input type="text" id="codeInput">
+      <button onclick="searchCar()">Провери</button>
+
+      <br>
+      <button onclick="toggleAdmin()">Администратор</button>
+      <div id="adminMenu">
+        <button onclick="alert('Добавяне на нова кола')">Добави</button>
+        <button onclick="alert('Премахване на кола')">Премахни</button>
+      </div>
+
+      <div id="result"></div>
+    </div>
   </div>
 
   <script src="script.js"></script>
