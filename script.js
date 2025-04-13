@@ -8,7 +8,7 @@ async function searchCar() {
   resultDiv.innerHTML = "";
 
   if (car) {
-    let table = "<table><tr><th>Brand</th><th>Model</th><th>Year</th><th>Horsepower</th><th>Transmission</th><th>Drivetrain</th></tr>";
+    let table = "<table><tr><th>Марка</th><th>Модел</th><th>Година</th><th>Конски сили</th><th>Скоростна кутия</th><th>Задвижване</th></tr>";
     table += `<tr>
                 <td>${car["brand"]}</td>
                 <td>${car["model"]}</td>
@@ -19,6 +19,9 @@ async function searchCar() {
               </tr></table>`;
     resultDiv.innerHTML = table;
   } else {
-    resultDiv.innerHTML = "<p>No data found for this code.</p>";
+    resultDiv.innerHTML = "<p>Няма намерени данни за този код.</p>";
   }
+
+  // изчисти полето за въвеждане
+  document.getElementById("codeInput").value = "";
 }
