@@ -4,19 +4,69 @@
   <meta charset="UTF-8">
   <title>Проверка на кола</title>
   <style>
-    body { font-family: Arial; padding: 20px; }
+    body { font-family: Arial; padding: 0; margin: 0; }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f4f4f4;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+    }
+    .header img {
+      height: 50px;
+    }
+    .header-text {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .container {
+      padding: 20px;
+    }
     input, button { padding: 8px; margin: 5px; }
     table { border-collapse: collapse; margin-top: 20px; }
     td, th { border: 1px solid #ccc; padding: 8px 12px; }
+    #adminMenu {
+      display: none;
+      margin-top: 10px;
+    }
+    #adminMenu button {
+      margin-right: 10px;
+    }
   </style>
 </head>
 <body>
-  <h2>Въведи код от карта</h2>
-  <input type="text" id="codeInput" placeholder="Пример: PK7">
-  <button onclick="searchCar()">Провери</button>
 
-  <div id="result"></div>
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" alt="Лого на Авто Бавария">
+    <div class="header-text">X | Пътна полиция - СДВР</div>
+  </div>
+
+  <div class="container">
+    <h2>Enter card code</h2>
+    <input type="text" id="codeInput">
+    <button onclick="searchCar()">Search</button>
+
+    <br><br>
+    <button onclick="toggleAdmin()">Администратор</button>
+    <div id="adminMenu">
+      <button onclick="alert('Добавяне на нова кола')">Добави</button>
+      <button onclick="alert('Премахване на кола')">Премахни</button>
+    </div>
+
+    <div id="result"></div>
+  </div>
 
   <script src="script.js"></script>
+  <script>
+    function toggleAdmin() {
+      const password = prompt("Въведете парола:");
+      if (password === "admin123") {
+        document.getElementById("adminMenu").style.display = "block";
+      } else {
+        alert("Грешна парола!");
+      }
+    }
+  </script>
 </body>
 </html>
