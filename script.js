@@ -22,6 +22,14 @@ async function searchCar() {
     resultDiv.innerHTML = "<p>Няма намерени данни за този код.</p>";
   }
 
-  // изчисти полето за въвеждане
   document.getElementById("codeInput").value = "";
+}
+
+function toggleAdmin() {
+  const password = prompt("Въведете парола:");
+  if (password === "admin123") {
+    document.getElementById("adminMenu").style.display = "block";
+  } else {
+    alert("Грешна парола!");
+  }
 }
