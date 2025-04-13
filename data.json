@@ -1,10 +1,18 @@
 {
   "PK7": {
-    "марка": "BMW",
-    "модел": "320d",
-    "година": 2018,
-    "конски сили": 190,
-    "скоростна кутия": "Автоматична",
-    "задвижване": "Задно"
+    "brand": "BMW",
+    "model": "320d",
+    "year": 2018,
+    "horsepower": 190,
+    "transmission": "Automatic",
+    "drivetrain": "Rear"
+  },
+  "ABC123": {
+    "brand": "Audi",
+    "model": "A4",
+    "year": 2020,
+    "horsepower": 150,
+    "transmission": "Manual",
+    "drivetrain": "Front"
   }
 }
