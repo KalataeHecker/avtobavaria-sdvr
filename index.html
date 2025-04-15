@@ -2,12 +2,12 @@
 <html lang="bg">
 <head>
   <meta charset="UTF-8">
-  <title>Проверка на кола</title>
+  <title>Auto Bavaria | Пътна полиция</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url('https://i.ibb.co/YW5dk0h/bmw-m-background.jpg') no-repeat center center fixed;
+      background: url('images/bmw-police-bg.png') no-repeat center center fixed;
       background-size: cover;
       color: white;
     }
@@ -30,12 +30,20 @@
       height: 50px;
     }
 
+    @keyframes policeLights {
+      0%   { color: red; }
+      25%  { color: white; }
+      50%  { color: blue; }
+      75%  { color: white; }
+      100% { color: red; }
+    }
+
     .header-title {
       font-size: 22px;
       font-weight: bold;
       text-align: center;
       flex-grow: 1;
-      color: #fff;
+      animation: policeLights 1.5s infinite;
     }
 
     .container {
