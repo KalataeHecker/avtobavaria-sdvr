@@ -4,11 +4,7 @@
   <meta charset="UTF-8">
   <title>Auto Bavaria | X | ПЪТНА ПОЛИЦИЯ - СДВР</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
       color: white;
@@ -23,9 +19,7 @@
       padding: 10px 20px;
       height: 80px;
     }
-    header img {
-      height: 60px;
-    }
+    header img { height: 60px; }
     h1 {
       font-size: 24px;
       animation: blink 1s infinite;
@@ -40,15 +34,9 @@
       padding: 20px;
       border-radius: 10px;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    td {
-      padding: 10px;
-      border-bottom: 1px solid #555;
-    }
-    .admin-button, .hide-button, .home-button {
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 10px; border-bottom: 1px solid #555; }
+    .admin-button, .btn {
       margin: 10px auto;
       display: block;
       padding: 10px 20px;
@@ -59,10 +47,7 @@
       border-radius: 5px;
       cursor: pointer;
     }
-    .admin-panel {
-      display: none;
-      margin-top: 20px;
-    }
+    .admin-panel { display: none; margin-top: 20px; }
     .gallery {
       display: flex;
       align-items: center;
@@ -84,16 +69,28 @@
       cursor: pointer;
       border-radius: 50%;
     }
+    #startScreen, #mainContent {
+      display: none;
+    }
   </style>
 </head>
 <body>
+
   <header>
     <img src="images/bmw-logo.png" alt="BMW">
     <h1>Auto Bavaria | X | ПЪТНА ПОЛИЦИЯ - СДВР</h1>
     <img src="images/National_Police_of_Bulgaria_logo.svg.png" alt="Police">
   </header>
 
-  <div class="container">
+  <!-- Начален екран -->
+  <div class="container" id="startScreen" style="display:block;">
+    <h2>Въведи код от карта</h2>
+    <input type="text" id="codeInput" placeholder="Пример: PK7" style="padding:10px; width:80%; font-size:16px;">
+    <button class="btn" onclick="showCarInfo()">Потвърди</button>
+  </div>
+
+  <!-- Основна информация -->
+  <div class="container" id="mainContent">
     <table id="carData">
       <tr><td>Марка:</td><td>BMW</td></tr>
       <tr><td>Модел:</td><td>320d</td></tr>
@@ -104,12 +101,13 @@
       <tr><td>ГТП валиден до:</td><td>15.07.2025</td></tr>
     </table>
 
+    <button class="btn" onclick="goHome()">Начало</button>
     <button class="admin-button" onclick="toggleAdmin()">Администратор</button>
-    <button class="hide-button" onclick="hideAdminPanel()">Скрий</button>
 
     <div class="admin-panel" id="adminPanel">
       <label>Парола: <input type="password" id="adminPass"></label>
       <button onclick="checkPassword()">Вход</button>
+      <button onclick="hideAdmin()">Скрий</button>
 
       <div id="adminOptions" style="display:none; margin-top: 15px;">
         <h3>Промени данни</h3>
@@ -119,4 +117,73 @@
         <h3>Качи снимка</h3>
         <input type="file" id="imgUpload" accept="image/*" onchange="loadImage(event)">
       </div>
-      
+    </div>
+
+    <div class="gallery">
+      <button class="arrow" onclick="changeImage(-1)">&#8592;</button>
+      <img id="galleryImg" src="images/sample1.jpg" alt="Снимка на кола">
+      <button class="arrow" onclick="changeImage(1)">&#8594;</button>
+    </div>
+  </div>
+
+  <script>
+    let currentImage = 0;
+    const images = [
+      'images/sample1.jpg',
+      'images/sample2.jpg',
+      'images/sample3.jpg'
+    ];
+
+    function showCarInfo() {
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("mainContent").style.display = "block";
+    }
+
+    function goHome() {
+      document.getElementById("mainContent").style.display = "none";
+      document.getElementById("startScreen").style.display = "block";
+    }
+
+    function toggleAdmin() {
+      document.getElementById("adminPanel").style.display = 'block';
+    }
+
+    function hideAdmin() {
+      document.getElementById("adminPanel").style.display = 'none';
+    }
+
+    function checkPassword() {
+      const pass = document.getElementById("adminPass").value;
+      if(pass === "admin123") {
+        document.getElementById("adminOptions").style.display = 'block';
+        document.getElementById("dataEdit").value = document.getElementById("carData").innerHTML;
+      } else {
+        alert("Грешна парола!");
+      }
+    }
+
+    function saveData() {
+      const newData = document.getElementById("dataEdit").value;
+      document.getElementById("carData").innerHTML = newData;
+    }
+
+    function loadImage(event) {
+      const reader = new FileReader();
+      reader.onload = function(){
+        images.push(reader.result);
+        currentImage = images.length - 1;
+        document.getElementById("galleryImg").src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function changeImage(direction) {
+      currentImage += direction;
+      if(currentImage < 0) currentImage = images.length - 1;
+      if(currentImage >= images.length) currentImage = 0;
+      document.getElementById("galleryImg").src = images[currentImage];
+    }
+  </script>
+
+</body>
+</html>
