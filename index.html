@@ -48,8 +48,8 @@
       padding: 10px;
       border-bottom: 1px solid #555;
     }
-    .admin-button {
-      margin: 20px auto;
+    .admin-button, .hide-button, .home-button {
+      margin: 10px auto;
       display: block;
       padding: 10px 20px;
       font-size: 16px;
@@ -105,6 +105,7 @@
     </table>
 
     <button class="admin-button" onclick="toggleAdmin()">Администратор</button>
+    <button class="hide-button" onclick="hideAdminPanel()">Скрий</button>
 
     <div class="admin-panel" id="adminPanel">
       <label>Парола: <input type="password" id="adminPass"></label>
@@ -125,6 +126,8 @@
       <img id="galleryImg" src="images/sample1.jpg" alt="Снимка на кола">
       <button class="arrow" onclick="changeImage(1)">&#8594;</button>
     </div>
+
+    <button class="home-button" onclick="goHome()">Начало</button>
   </div>
 
   <script>
@@ -137,6 +140,10 @@
 
     function toggleAdmin() {
       document.getElementById("adminPanel").style.display = 'block';
+    }
+
+    function hideAdminPanel() {
+      document.getElementById("adminPanel").style.display = 'none';
     }
 
     function checkPassword() {
@@ -170,6 +177,11 @@
       if(currentImage >= images.length) currentImage = 0;
       document.getElementById("galleryImg").src = images[currentImage];
     }
+
+    function goHome() {
+      location.reload();
+    }
   </script>
 </body>
 </html>
+
