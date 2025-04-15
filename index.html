@@ -13,15 +13,20 @@
       color: white;
       background: url('images/bmw-police-bg.png') no-repeat center center fixed;
       background-size: cover;
-      padding-top: 100px;
+      padding-top: 80px; /* пространство над фона */
     }
     header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background-color: black;
       padding: 10px 20px;
       height: 80px;
+      z-index: 10;
     }
     header img {
       height: 60px;
@@ -48,7 +53,7 @@
       padding: 10px;
       border-bottom: 1px solid #555;
     }
-    .admin-button {
+    .admin-button, .back-button {
       margin: 20px auto;
       display: block;
       padding: 10px 20px;
@@ -84,6 +89,26 @@
       cursor: pointer;
       border-radius: 50%;
     }
+    .search-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .search-box input {
+      padding: 10px;
+      width: 70%;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+    .search-box button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -92,15 +117,17 @@
     <h1>Auto Bavaria | X | ПЪТНА ПОЛИЦИЯ - СДВР</h1>
     <img src="images/National_Police_of_Bulgaria_logo.svg.png" alt="Police">
   </header>  <div class="container">
-    <input type="text" id="codeInput" placeholder="" style="padding: 10px; width: 80%; font-size: 18px; margin-top: 20px;">
-    <button onclick="searchCode()" style="padding: 10px 20px; font-size: 18px; margin-left: 10px;">Търси</button><table id="carData">
-  <tr><td>Марка:</td><td>BMW</td></tr>
-  <tr><td>Модел:</td><td>320d</td></tr>
-  <tr><td>Година:</td><td>2016</td></tr>
-  <tr><td>Конски сили:</td><td>190</td></tr>
-  <tr><td>Скоростна кутия:</td><td>Автоматична</td></tr>
-  <tr><td>Задвижване:</td><td>Задно</td></tr>
-  <tr><td>ГТП валиден до:</td><td>15.07.2025</td></tr>
+    <div class="search-box">
+      <input type="text" id="codeInput" placeholder="">
+      <button onclick="searchCode()">Търси</button>
+    </div><table id="carData" style="display:none">
+  <tr><td>Марка:</td><td id="brand"></td></tr>
+  <tr><td>Модел:</td><td id="model"></td></tr>
+  <tr><td>Година:</td><td id="year"></td></tr>
+  <tr><td>Конски сили:</td><td id="power"></td></tr>
+  <tr><td>Скоростна кутия:</td><td id="gearbox"></td></tr>
+  <tr><td>Задвижване:</td><td id="drive"></td></tr>
+  <tr><td>ГТП валиден до:</td><td id="gtp"></td></tr>
 </table>
 
 <button class="admin-button" onclick="toggleAdmin()">Администратор</button>
@@ -113,6 +140,7 @@
     <h3>Промени данни</h3>
     <textarea id="dataEdit" rows="10" cols="50"></textarea><br>
     <button onclick="saveData()">Запази</button>
+    <button onclick="hideAdmin()">Скрий</button>
 
     <h3>Качи снимка</h3>
     <input type="file" id="imgUpload" accept="image/*" onchange="loadImage(event)">
@@ -125,6 +153,8 @@
   <button class="arrow" onclick="changeImage(1)">&#8594;</button>
 </div>
 
+<button class="back-button" onclick="goHome()">Начало</button>
+
   </div>  <script>
     let currentImage = 0;
     const images = [
@@ -132,6 +162,18 @@
       'images/sample2.jpg',
       'images/sample3.jpg'
     ];
+
+    function searchCode() {
+      // Примерни данни - реално тук можеш да добавиш логика за различни кодове
+      document.getElementById("carData").style.display = 'table';
+      document.getElementById("brand").innerText = "BMW";
+      document.getElementById("model").innerText = "320d";
+      document.getElementById("year").innerText = "2016";
+      document.getElementById("power").innerText = "190";
+      document.getElementById("gearbox").innerText = "Автоматична";
+      document.getElementById("drive").innerText = "Задно";
+      document.getElementById("gtp").innerText = "15.07.2025";
+    }
 
     function toggleAdmin() {
       document.getElementById("adminPanel").style.display = 'block';
@@ -152,6 +194,11 @@
       document.getElementById("carData").innerHTML = newData;
     }
 
+    function hideAdmin() {
+      document.getElementById("adminPanel").style.display = 'none';
+      document.getElementById("adminOptions").style.display = 'none';
+    }
+
     function loadImage(event) {
       const reader = new FileReader();
       reader.onload = function(){
@@ -169,21 +216,9 @@
       document.getElementById("galleryImg").src = images[currentImage];
     }
 
-    function searchCode() {
-      const code = document.getElementById("codeInput").value.trim().toUpperCase();
-      if(code === "PK7") {
-        document.getElementById("carData").innerHTML = `
-          <tr><td>Марка:</td><td>BMW</td></tr>
-          <tr><td>Модел:</td><td>320d</td></tr>
-          <tr><td>Година:</td><td>2016</td></tr>
-          <tr><td>Конски сили:</td><td>190</td></tr>
-          <tr><td>Скоростна кутия:</td><td>Автоматична</td></tr>
-          <tr><td>Задвижване:</td><td>Задно</td></tr>
-          <tr><td>ГТП валиден до:</td><td>15.07.2025</td></tr>
-        `;
-      } else {
-        alert("Невалиден код");
-      }
+    function goHome() {
+      document.getElementById("carData").style.display = 'none';
+      document.getElementById("codeInput").value = '';
     }
   </script></body>
 </html>
