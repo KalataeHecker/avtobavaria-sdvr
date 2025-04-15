@@ -1,11 +1,11 @@
 {
   "PK7": {
     "brand": "BMW",
-    "model": "320d",
+    "model": "x3 (g01)",
     "year": 2018,
-    "horsepower": 190,
+    "horsepower": 248,
     "transmission": "Automatic",
-    "drivetrain": "Rear"
+    "drivetrain": "4x4"
   },
   "ABC123": {
     "brand": "Audi",
