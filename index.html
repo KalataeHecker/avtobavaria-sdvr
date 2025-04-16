@@ -13,34 +13,40 @@
       color: white;
       background: url('images/bmw-police-bg.png') no-repeat center center fixed;
       background-size: cover;
-      padding-top: 80px; /* пространство над фона */
+    }
+    body::before {
+      content: "";
+      display: block;
+      height: 100px;
     }
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background-color: black;
       padding: 10px 20px;
       height: 80px;
-      z-index: 10;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
     }
     header img {
       height: 60px;
     }
     h1 {
       font-size: 24px;
-      animation: blink 1s infinite;
+      animation: colorBlink 2s infinite;
     }
-    @keyframes blink {
-      50% { opacity: 0; }
+    @keyframes colorBlink {
+      0% { color: blue; }
+      50% { color: red; }
+      100% { color: blue; }
     }
     .container {
       max-width: 800px;
-      margin: 30px auto;
+      margin: 140px auto 30px;
       background: rgba(0,0,0,0.7);
       padding: 20px;
       border-radius: 10px;
@@ -89,25 +95,14 @@
       cursor: pointer;
       border-radius: 50%;
     }
-    .search-box {
+    #searchSection {
       text-align: center;
       margin-bottom: 20px;
     }
-    .search-box input {
+    #codeInput {
       padding: 10px;
-      width: 70%;
       font-size: 16px;
-      border-radius: 5px;
-      border: none;
-    }
-    .search-box button {
-      padding: 10px 15px;
-      font-size: 16px;
-      background: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      width: 200px;
     }
   </style>
 </head>
@@ -117,43 +112,43 @@
     <h1>Auto Bavaria | X | ПЪТНА ПОЛИЦИЯ - СДВР</h1>
     <img src="images/National_Police_of_Bulgaria_logo.svg.png" alt="Police">
   </header>  <div class="container">
-    <div class="search-box">
-      <input type="text" id="codeInput" placeholder="">
-      <button onclick="searchCode()">Търси</button>
-    </div><table id="carData" style="display:none">
-  <tr><td>Марка:</td><td id="brand"></td></tr>
-  <tr><td>Модел:</td><td id="model"></td></tr>
-  <tr><td>Година:</td><td id="year"></td></tr>
-  <tr><td>Конски сили:</td><td id="power"></td></tr>
-  <tr><td>Скоростна кутия:</td><td id="gearbox"></td></tr>
-  <tr><td>Задвижване:</td><td id="drive"></td></tr>
-  <tr><td>ГТП валиден до:</td><td id="gtp"></td></tr>
-</table>
+    <div id="searchSection">
+      <input type="text" id="codeInput" placeholder="" onkeyup="checkCode()">
+    </div><div id="carContainer" style="display:none;">
+  <table id="carData">
+    <tr><td>Марка:</td><td>BMW</td></tr>
+    <tr><td>Модел:</td><td>320d</td></tr>
+    <tr><td>Година:</td><td>2016</td></tr>
+    <tr><td>Конски сили:</td><td>190</td></tr>
+    <tr><td>Скоростна кутия:</td><td>Автоматична</td></tr>
+    <tr><td>Задвижване:</td><td>Задно</td></tr>
+    <tr><td>ГТП валиден до:</td><td>15.07.2025</td></tr>
+  </table>
 
-<button class="admin-button" onclick="toggleAdmin()">Администратор</button>
+  <button class="admin-button" onclick="toggleAdmin()">Администратор</button>
+  <button class="back-button" onclick="goBack()">Начало</button>
 
-<div class="admin-panel" id="adminPanel">
-  <label>Парола: <input type="password" id="adminPass"></label>
-  <button onclick="checkPassword()">Вход</button>
+  <div class="admin-panel" id="adminPanel">
+    <label>Парола: <input type="password" id="adminPass"></label>
+    <button onclick="checkPassword()">Вход</button>
 
-  <div id="adminOptions" style="display:none; margin-top: 15px;">
-    <h3>Промени данни</h3>
-    <textarea id="dataEdit" rows="10" cols="50"></textarea><br>
-    <button onclick="saveData()">Запази</button>
-    <button onclick="hideAdmin()">Скрий</button>
+    <div id="adminOptions" style="display:none; margin-top: 15px;">
+      <h3>Промени данни</h3>
+      <textarea id="dataEdit" rows="10" cols="50"></textarea><br>
+      <button onclick="saveData()">Запази</button>
+      <button onclick="hideAdmin()">Скрий</button>
 
-    <h3>Качи снимка</h3>
-    <input type="file" id="imgUpload" accept="image/*" onchange="loadImage(event)">
+      <h3>Качи снимка</h3>
+      <input type="file" id="imgUpload" accept="image/*" onchange="loadImage(event)">
+    </div>
+  </div>
+
+  <div class="gallery">
+    <button class="arrow" onclick="changeImage(-1)">&#8592;</button>
+    <img id="galleryImg" src="images/sample1.jpg" alt="Снимка на кола">
+    <button class="arrow" onclick="changeImage(1)">&#8594;</button>
   </div>
 </div>
-
-<div class="gallery">
-  <button class="arrow" onclick="changeImage(-1)">&#8592;</button>
-  <img id="galleryImg" src="images/sample1.jpg" alt="Снимка на кола">
-  <button class="arrow" onclick="changeImage(1)">&#8594;</button>
-</div>
-
-<button class="back-button" onclick="goHome()">Начало</button>
 
   </div>  <script>
     let currentImage = 0;
@@ -163,16 +158,13 @@
       'images/sample3.jpg'
     ];
 
-    function searchCode() {
-      // Примерни данни - реално тук можеш да добавиш логика за различни кодове
-      document.getElementById("carData").style.display = 'table';
-      document.getElementById("brand").innerText = "BMW";
-      document.getElementById("model").innerText = "320d";
-      document.getElementById("year").innerText = "2016";
-      document.getElementById("power").innerText = "190";
-      document.getElementById("gearbox").innerText = "Автоматична";
-      document.getElementById("drive").innerText = "Задно";
-      document.getElementById("gtp").innerText = "15.07.2025";
+    function checkCode() {
+      const code = document.getElementById("codeInput").value.toUpperCase();
+      if(code === "PK7") {
+        document.getElementById("carContainer").style.display = 'block';
+      } else {
+        document.getElementById("carContainer").style.display = 'none';
+      }
     }
 
     function toggleAdmin() {
@@ -195,8 +187,13 @@
     }
 
     function hideAdmin() {
-      document.getElementById("adminPanel").style.display = 'none';
       document.getElementById("adminOptions").style.display = 'none';
+      document.getElementById("adminPanel").style.display = 'none';
+    }
+
+    function goBack() {
+      document.getElementById("codeInput").value = "";
+      document.getElementById("carContainer").style.display = 'none';
     }
 
     function loadImage(event) {
@@ -214,11 +211,6 @@
       if(currentImage < 0) currentImage = images.length - 1;
       if(currentImage >= images.length) currentImage = 0;
       document.getElementById("galleryImg").src = images[currentImage];
-    }
-
-    function goHome() {
-      document.getElementById("carData").style.display = 'none';
-      document.getElementById("codeInput").value = '';
     }
   </script></body>
 </html>
